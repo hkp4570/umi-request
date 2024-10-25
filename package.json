@@ -1,0 +1,19 @@
+{
+  "name": "umi-request-source",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "scripts": {
+    "dev": "father-build --w",
+    "build": "father-build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "father-build": "^1.22.5",
+    "umi": "^4.3.23",
+    "umi-request": "^1.4.0"
+  }
+}
