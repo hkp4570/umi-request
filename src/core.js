@@ -6,6 +6,7 @@ class Core {
     constructor(initOptions) {
         this.onion = new Onion([]);
         this.mapCache = new MapCache(initOptions);
+        this.initOptions = initOptions;
         this.instanceRequestInterceptors = [];
     }
 

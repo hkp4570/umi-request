@@ -1,11 +1,12 @@
 import Core from './core'
+import {mergeRequestOptions} from "./utils";
 
 const request = (initOptions = {}) => {
     const coreInstance = new Core(initOptions);
 
     const umiInstance = (url, options = {}) => {
-        // TODO 配置文件合并操作
-        return coreInstance.request(url, options);
+        const mergeOptions = mergeRequestOptions(coreInstance.initOptions, options);
+        return coreInstance.request(url, mergeOptions);
     }
 
     return umiInstance;
