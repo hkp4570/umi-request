@@ -15,7 +15,7 @@ class Core {
     // 执行拦截器
     dealRequestInterceptors(ctx) {
         const allInterceptors = [...Core.requestInterceptors, ...this.instanceRequestInterceptors];
-        allInterceptors.reduce((p1, p2) => {
+        return allInterceptors.reduce((p1, p2) => {
             // p1 promise p2  ./interceptor/addfix.js   addfix
             return p1.then((ret = {}) => {
                 ctx.req.url = ret.url || ctx.req.url;
@@ -40,9 +40,20 @@ class Core {
             throw new Error(`url must be a string`);
         }
         return new Promise((resolve, reject) => {
-            //
-            this.dealRequestInterceptors(obj).then(() => {
-
+            this.dealRequestInterceptors(obj).then(() => onion.execute(obj)).then(() => {
+                resolve(obj.res);
+            }).catch(error => {
+                const { errorHandler } = obj.req.options;
+                if(errorHandler){
+                    try{
+                        const data = errorHandler(error);
+                        resolve(data);
+                    }catch (e){
+                        reject(e);
+                    }
+                }else{
+                    reject(error);
+                }
             })
         })
     }

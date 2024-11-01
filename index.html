@@ -10,8 +10,11 @@
     <script>
         console.log(umiRequestSource, 'request');
         umiRequestSource('/apis/about',{
-            prefix: "prefix",
-            suffix: 'suffix'
+            prefix: "prefix", // 请求前缀
+            suffix: 'suffix', // 请求后缀
+            errorHandler: (error)=>{
+                console.log(error)
+            }
         })
     </script>
 </body>
