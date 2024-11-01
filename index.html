@@ -9,6 +9,10 @@
 <body>
     <script>
         console.log(umiRequestSource, 'request');
+        umiRequestSource('/apis/about',{
+            prefix: "prefix",
+            suffix: 'suffix'
+        })
     </script>
 </body>
 </html>
