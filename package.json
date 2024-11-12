@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "father-build": "^1.22.5",
-    "qs": "^6.13.0",
+    "qs": "^6.9.1",
     "umi": "^4.3.23",
     "umi-request": "^1.4.0"
   }
