@@ -1,4 +1,4 @@
-import { parse } from 'qs';
+import { parse, stringify } from 'qs';
 export class MapCache {
     constructor(options) {
         this.cache = new Map();
@@ -71,4 +71,7 @@ export function mergeRequestOptions(options, options2Merge) {
         },
         method: (options2Merge.method || options.method || 'get').toLowerCase()
     }
+}
+export function reqStringify(val){
+    return stringify(val, { arrayFormat: 'repeat', strictNullHandling: true });
 }

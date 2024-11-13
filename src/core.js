@@ -70,7 +70,7 @@ class Core {
             req: {url, options: {...options, url}},
             res: null,
             cache: this.mapCache,
-            responseInterceptors: [...Core.responseInterceptors, ...this.instanceResponseInterceptors],
+            responseInterceptors: [...Core.responseInterceptors, ...this.instanceResponseInterceptors], // 响应拦截器
         }
         if (typeof url !== 'string') {
             throw new Error(`url must be a string`);
@@ -78,7 +78,6 @@ class Core {
         return new Promise((resolve, reject) => {
             // 先执行拦截器 再执行中间件
             this.dealRequestInterceptors(obj).then(() => onion.execute(obj)).then(() => {
-                console.log(obj, 'obj')
                 resolve(obj.res);
             }).catch(error => {
                 const { errorHandler } = obj.req.options;

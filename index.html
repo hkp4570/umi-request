@@ -29,13 +29,13 @@
             errorHandler: (error)=>{
                 console.log(error)
             },
-            method: 'get',
-            params: {
-                // get请求
-                id: 1
-            },
+            method: 'post',
+            requestType: 'json', // post 请求时数据类型（json,form） 默认为json
+            data: {
+                name: 'test'
+            }, // 提交的数据
             headers: {
-
+                'Content-Type': 'application/json'
             }
         }).then(response => {
             console.log(response ,'response')
