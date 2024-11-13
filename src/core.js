@@ -1,6 +1,19 @@
 import Onion from './onion'
 import {MapCache} from "./utils";
 import addfixInterceptor from './interceptor/addfix.js';
+import simpleGet from './middleware/simpleGet.js';
+import simplePost from './middleware/simplePost.js';
+import parseResponseMiddleware from "./middleware/parseResponse.js";
+import fetchMiddleware from "./middleware/fetch";
+
+// 初始化全局中间件和内核中间件  通过中间件链式调用执行请求
+const globalMiddlewares = [simplePost, simpleGet, parseResponseMiddleware];
+const coreMiddlewares = [fetchMiddleware];
+
+Onion.globalMiddlewares = globalMiddlewares;
+Onion.defaultGlobalMiddlewaresLength = globalMiddlewares.length;
+Onion.coreMiddlewares = coreMiddlewares;
+Onion.defaultCoreMiddlewaresLength = coreMiddlewares.length;
 
 class Core {
     constructor(initOptions) {
@@ -65,6 +78,7 @@ class Core {
         return new Promise((resolve, reject) => {
             // 先执行拦截器 再执行中间件
             this.dealRequestInterceptors(obj).then(() => onion.execute(obj)).then(() => {
+                console.log(obj, 'obj')
                 resolve(obj.res);
             }).catch(error => {
                 const { errorHandler } = obj.req.options;

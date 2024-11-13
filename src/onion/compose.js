@@ -16,9 +16,12 @@ export default function compose(middlewares) {
             }
             index = i;
             const fn = middlewares[i] || next;
-            // if(!fn) return Promise.reject('手动抛出错误，调试');
             if(!fn) return Promise.resolve();
-            // TODO 执行中间件
+            try{
+                return Promise.resolve(fn(param, () => dispatch(i + 1)));
+            }catch (e) {
+                return Promise.reject(e)
+            }
         }
         return dispatch(0);
     }
