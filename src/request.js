@@ -9,6 +9,16 @@ const request = (initOptions = {}) => {
         return coreInstance.request(url, mergeOptions);
     }
 
+    // 拦截器
+    umiInstance.interceptors = {
+        request: {
+            use: Core.requestUse.bind(coreInstance)
+        },
+        response: {
+            use: Core.responseUse.bind(coreInstance)
+        }
+    }
+
     return umiInstance;
 }
 
