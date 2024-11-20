@@ -75,3 +75,13 @@ export function mergeRequestOptions(options, options2Merge) {
 export function reqStringify(val){
     return stringify(val, { arrayFormat: 'repeat', strictNullHandling: true });
 }
+export function getEnv(){
+    let env;
+    if(typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]'){
+        env = 'NODE';
+    }
+    if(typeof XMLHttpRequest !== 'undefined'){
+        env = 'BROWSER';
+    }
+    return env;
+}

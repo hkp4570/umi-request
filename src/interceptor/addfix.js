@@ -5,7 +5,7 @@ const addfix = (url,options = {}) => {
         url = `${prefix}${url}`;
     }
     if(suffix){
-        url = `${url}${suffix}`;
+        url = `${url}/${suffix}`;
     }
     return {
         url,

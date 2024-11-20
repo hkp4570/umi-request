@@ -7,7 +7,8 @@ import parseResponseMiddleware from "./middleware/parseResponse.js";
 import fetchMiddleware from "./middleware/fetch";
 
 // 初始化全局中间件和内核中间件  通过中间件链式调用执行请求
-const globalMiddlewares = [simplePost, simpleGet, parseResponseMiddleware];
+// const globalMiddlewares = [simplePost, simpleGet, parseResponseMiddleware];
+const globalMiddlewares = [];
 const coreMiddlewares = [fetchMiddleware];
 
 Onion.globalMiddlewares = globalMiddlewares;

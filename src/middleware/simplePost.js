@@ -1,7 +1,6 @@
 import {reqStringify} from '../utils.js';
 export default function simplePostMiddleware(ctx, next) {
     if (!ctx) return next();
-    console.log(ctx, 'ctx');
     const {req: {options = {}} = {}} = ctx;
     const {method = 'get'} = options;
     if (['post', 'put', 'patch', 'delete'].indexOf(method.toLowerCase()) === -1) {

@@ -12,10 +12,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "father-build": "^1.22.5",
-    "isomorphic-fetch": "^3.0.0",
+    "father-build": "1.22.5",
+    "isomorphic-fetch": "2.2.1",
     "qs": "^6.9.1",
-    "umi": "^4.3.23",
-    "umi-request": "^1.4.0"
+    "umi": "4.3.23",
+    "umi-request": "1.4.0"
+  },
+  "devDependencies": {
+    "query-string": "^6.9.0",
+    "rollup-plugin-node-polyfills": "^0.2.1"
   }
 }
