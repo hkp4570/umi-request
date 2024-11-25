@@ -7,6 +7,7 @@
     <script src="./dist/index.umd.js"></script>
 </head>
 <body>
+    <button id="btn">发送请求</button>
     <script>
         console.log(umiRequestSource, 'request');
         // umiRequestSource.interceptors.request.use(
@@ -23,24 +24,40 @@
         //     const contentType = response.headers.get('Content-Type');
         //     return response;
         // });
-        umiRequestSource('http://jsonplaceholder.typicode.com/posts',{
-            // prefix: "prefix", // 请求前缀
-            // suffix: 'suffix', // 请求后缀
-            errorHandler: (error)=>{
-                console.log(error)
-            },
-            method: 'get',
-            //requestType: 'json', // post 请求时数据类型（json,form） 默认为json
-            // data: {
-            //     name: 'test'
-            // }, // 提交的数据
-            // headers: {
-            //     'Content-Type': 'application/json'
-            // }
-        }).then(response => {
+        function sendRequest(){
+            umiRequestSource('http://jsonplaceholder.typicode.com/posts',{
+                // prefix: "prefix", // 请求前缀
+                // suffix: 'suffix', // 请求后缀
+                errorHandler: (error)=>{
+                    console.log(error)
+                },
+                method: 'get',
+                //requestType: 'json', // post 请求时数据类型（json,form） 默认为json
+                // data: {
+                //     name: 'test'
+                // }, // 提交的数据
+                // headers: {
+                //     'Content-Type': 'application/json'
+                // }
+                // 根据协议规范， GET 请求用于获取、查询服务端数据，在数据更新频率不频繁的情况下做必要的缓存能减少服务端的压力，
+                // 因为缓存策略是默认对 GET 请求做缓存，但对于一些特殊场景需要缓存其他类型请求的响应数据时，
+                // 我们提供 validateCache 供用户自定义何时需要进行缓存， key 依旧为 url + params + method
+                validateCache: (url, options) => { return options.method.toLowerCase() === 'get' },
+                // ’useCache‘ 是否使用缓存，当值为 true 时，GET 请求在 ttl 毫秒内将被缓存，缓存策略唯一 key 为 url + params + method 组合
+                useCache: true, // default
 
-        })
+                // ’ttl‘ 缓存时长（毫秒）， 0 为不过期
+                ttl: 60000,
 
+                // 'maxCache' 最大缓存数， 0 为无限制
+                maxCache: 0,
+            }).then(response => {
+                console.log(response ,'response===')
+            })
+        }
+        sendRequest();
+        const btn = document.getElementById('btn');
+        btn.onclick = sendRequest;
     </script>
 </body>
 </html>

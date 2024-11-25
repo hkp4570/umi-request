@@ -70,7 +70,7 @@ class Core {
         const obj = {
             req: {url, options: {...options, url}},
             res: null,
-            cache: this.mapCache,
+            cache: this.mapCache, // 缓存请求
             responseInterceptors: [...Core.responseInterceptors, ...this.instanceResponseInterceptors], // 响应拦截器
         }
         if (typeof url !== 'string') {
