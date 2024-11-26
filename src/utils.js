@@ -85,3 +85,7 @@ export function getEnv(){
     }
     return env;
 }
+// 如果请求选项包含 cancelToken，则在 token 已取消时拒绝请求
+export function cancel2Throw(opt){
+
+}

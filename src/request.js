@@ -1,5 +1,8 @@
 import Core from './core'
 import {mergeRequestOptions} from "./utils";
+import CancelToken from './cancel/cancelToken';
+import Cancel from './cancel/cancel.js';
+import isCancel from './cancel/isCancel';
 
 const request = (initOptions = {}) => {
     const coreInstance = new Core(initOptions);
@@ -18,6 +21,11 @@ const request = (initOptions = {}) => {
             use: Core.responseUse.bind(coreInstance)
         }
     }
+
+    // TODO：取消请求没有测试
+    umiInstance.Cancel = Cancel;
+    umiInstance.CancelToken = CancelToken;
+    umiInstance.isCancel = isCancel;
 
     return umiInstance;
 }

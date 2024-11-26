@@ -8,8 +8,8 @@
 </head>
 <body>
     <button id="btn">发送请求</button>
+    <button id="cancelBtn">取消请求</button>
     <script>
-        console.log(umiRequestSource, 'request');
         // umiRequestSource.interceptors.request.use(
         //     (url, options) => {
         //         return {
@@ -19,12 +19,17 @@
         //     },
         // );
 
-        // response拦截器, 处理response
-        // umiRequestSource.interceptors.response.use((response, options) => {
-        //     const contentType = response.headers.get('Content-Type');
-        //     return response;
-        // });
+
+        let cancelOut;
+
         function sendRequest(){
+            // response拦截器, 处理response
+            umiRequestSource.interceptors.response.use((response, options) => {
+                const contentType = response.headers.get('Content-Type');
+                return response;
+            });
+            const CancelTOken = umiRequestSource.CancelToken;
+            const {token, cancel} = CancelTOken.source();
             umiRequestSource('http://jsonplaceholder.typicode.com/posts',{
                 // prefix: "prefix", // 请求前缀
                 // suffix: 'suffix', // 请求后缀
@@ -51,13 +56,17 @@
 
                 // 'maxCache' 最大缓存数， 0 为无限制
                 maxCache: 0,
+
+                cancelToken: token,
             }).then(response => {
-                console.log(response ,'response===')
+
             })
         }
         sendRequest();
         const btn = document.getElementById('btn');
         btn.onclick = sendRequest;
+        const cancelBtn = document.getElementById('cancelBtn');
+
     </script>
 </body>
 </html>

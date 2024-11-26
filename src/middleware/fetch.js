@@ -48,6 +48,14 @@ export default function fetchMiddleware(ctx, next) {
         response = Promise.race([adapter(url, options)]);
     }
 
+    // 响应拦截器
+    responseInterceptors.forEach(handler => {
+        response = response.then(res => {
+            let cloneRes = typeof res.clone === 'function' ? res.clone() : res;
+            return handler(cloneRes, options);
+        })
+    })
+
     return response.then(res => {
         // 是否需要缓存
         if(needCache){
