@@ -4,6 +4,7 @@ export default {
     esm: 'rollup',
     cjs: 'rollup',
     umd: {
+        sourcemap: true,
         globals: {
             buffer: 'Buffer',
             string_decoder: 'StringDecoder',

@@ -37,13 +37,10 @@
                     console.log(error)
                 },
                 method: 'get',
-                params: {
-                    name: 'hkp',
-                    age: 18
+                params: new URLSearchParams('name=hkp&age=18'),
+                paramsSerializer:function(params){
+                    return `?name=${params.name}&age=${params.age}&sex=1`;
                 },
-                // paramsSerializer:function(){
-                //
-                // },
                 //requestType: 'json', // post 请求时数据类型（json,form） 默认为json
                 // data: {
                 //     name: 'test'

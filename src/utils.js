@@ -67,7 +67,7 @@ export function mergeRequestOptions(options, options2Merge) {
         },
         params: {
             ...getParamObject(options.params),
-            ...getParamObject(options2Merge.params),
+            ...getParamObject(options2Merge.params), // 如果是数组的参数,会变为对象的形式 [1,2]  => {0:1,1:2}
         },
         method: (options2Merge.method || options.method || 'get').toLowerCase()
     }

@@ -5,12 +5,13 @@ export function paramsSerialize(params, paramsSerializer){
     let jsonStringifiedParams;
     if(params){
         if(paramsSerializer){
-
+            serializedParams = paramsSerializer(params);
         }else if(isURLSearchParams(params)){
-
+            // request.js中合并options时，urlSearchParams参数会被处理成普通对象
+            serializedParams = params.toString();
         }else{
             if(isArray(params)){
-
+                // request.js中合并options时，数组的参数也会变为对象形式 [1,2] => {0:1,1:2}
             }else{
                 jsonStringifiedParams = {};
                 forEach2ObjArr(params, function(value,key){
