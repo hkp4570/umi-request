@@ -12,6 +12,9 @@ const request = (initOptions = {}) => {
         return coreInstance.request(url, mergeOptions);
     }
 
+    // 中间件
+    umiInstance.use = coreInstance.use.bind(coreInstance);
+
     // 拦截器
     umiInstance.interceptors = {
         request: {
@@ -21,6 +24,14 @@ const request = (initOptions = {}) => {
             use: Core.responseUse.bind(coreInstance)
         }
     }
+
+    // 请求语法糖
+    const METHODS = ['get', 'post', 'delete', 'put', 'patch', 'head', 'options', 'rpc'];
+    METHODS.forEach(method => {
+        umiInstance[method] = (url,options) => {
+            return umiInstance(url, {...options, method})
+        }
+    })
 
     // TODO：取消请求没有测试
     umiInstance.Cancel = Cancel;

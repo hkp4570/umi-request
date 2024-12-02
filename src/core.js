@@ -47,6 +47,11 @@ class Core {
         }
     }
 
+    use(newMiddleware, opt = {global:false, core:false}){
+        this.onion.use(newMiddleware, opt);
+        return this;
+    }
+
     // 执行请求前的拦截器
     dealRequestInterceptors(ctx) {
         const allInterceptors = [...Core.requestInterceptors, ...this.instanceRequestInterceptors];

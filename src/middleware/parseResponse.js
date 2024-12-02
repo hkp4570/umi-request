@@ -1,3 +1,3 @@
-export default function parseResponseMiddleware(){
-
+export default function parseResponseMiddleware(ctx,next){
+    return next();
 }

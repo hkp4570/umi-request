@@ -21,7 +21,20 @@
 
 
         let cancelOut;
-
+        // 通过中间件可对请求前后做处理
+        umiRequestSource.use(async (ctx, next) => {
+            console.log('a1');
+            // 请求前做处理
+            await next();
+            // 请求后做处理
+            console.log('a2');
+        });
+        umiRequestSource.use(async (ctx, next) => {
+            console.log('b1');
+            await next();
+            console.log('b2');
+        });
+        umiRequestSource.get('http://jsonplaceholder.typicode.com/posts', {});
         function sendRequest(){
             // response拦截器, 处理response
             umiRequestSource.interceptors.response.use((response, options) => {
