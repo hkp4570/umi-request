@@ -1,5 +1,5 @@
 import Onion from './onion'
-import {MapCache} from "./utils";
+import {MapCache, mergeRequestOptions} from "./utils";
 import addfixInterceptor from './interceptor/addfix.js';
 import simpleGet from './middleware/simpleGet.js';
 import simplePost from './middleware/simplePost.js';
@@ -50,6 +50,11 @@ class Core {
     use(newMiddleware, opt = {global:false, core:false}){
         this.onion.use(newMiddleware, opt);
         return this;
+    }
+    // 动态更新默认参数
+    extendOptions(options){
+        this.initOptions = mergeRequestOptions(this.initOptions, options);
+        this.mapCache.extendOptions(options);
     }
 
     // 执行请求前的拦截器

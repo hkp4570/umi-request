@@ -41,4 +41,9 @@ const request = (initOptions = {}) => {
     return umiInstance;
 }
 
+// 请求前统一添加通用配置
+export const extend = initOptions => request(initOptions);
+
+export const fetch = request({parseResponse: false})
+
 export default request({})
