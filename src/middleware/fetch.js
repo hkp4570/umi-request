@@ -9,7 +9,6 @@ function __defaultValidateCache(url,options){
 
 export default function fetchMiddleware(ctx, next) {
     if(!ctx) return next();
-    console.log(ctx, 'ctx');
     const { req:{ options = {}, url = '' } = {}, cache, responseInterceptors } = ctx;
     const {
         timeout = 0, // 超时时长
