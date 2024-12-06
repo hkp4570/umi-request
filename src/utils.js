@@ -133,6 +133,7 @@ export class ResponseError extends Error {
         this.type = type;
     }
 }
+
 // 请求异常
 export class RequestError extends Error {
     constructor(text, request, type = 'RequestError') {
@@ -144,10 +145,10 @@ export class RequestError extends Error {
 }
 
 // 处理GBK字符集的数据
-export function readerGBK(file){
+export function readerGBK(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = function() {
+        reader.onload = function () {
             resolve(reader.result);
         }
         reader.onerror = reject;
@@ -156,23 +157,33 @@ export function readerGBK(file){
 }
 
 // 安全的json.parse()
-export function safeJsonParse(data, throwErrIfParseFail = false, response = null, request = null){
-    try{
+export function safeJsonParse(data, throwErrIfParseFail = false, response = null, request = null) {
+    try {
         return JSON.parse(data);
-    }catch(e){
+    } catch (e) {
         if (throwErrIfParseFail) {
             throw new ResponseError(response, 'JSON.parse fail', data, request, 'ParseError');
         }
     }
     return data;
 }
+
 // 如果请求选项包含 cancelToken，则在 token 已取消时拒绝请求
-export function cancel2Throw(opt){
+export function cancel2Throw(opt) {
     return new Promise((_, reject) => {
-        if(opt.cancelToken){
+        if (opt.cancelToken) {
             opt.cancelToken.promise.then(cancel => {
                 reject(cancel);
             })
         }
+    })
+}
+
+// 超时
+export function timeout2Throw(msec, timeoutMessage, request) {
+    return new Promise((_, reject) => {
+        setTimeout(() => {
+            reject(new RequestError(timeoutMessage || `timeout of ${msec}ms exceeded`, request, 'Timeout'));
+        }, msec)
     })
 }

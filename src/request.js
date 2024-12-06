@@ -28,7 +28,7 @@ const request = (initOptions = {}) => {
     // 请求语法糖
     const METHODS = ['get', 'post', 'delete', 'put', 'patch', 'head', 'options', 'rpc'];
     METHODS.forEach(method => {
-        umiInstance[method] = (url,options) => {
+        umiInstance[method] = (url, options) => {
             return umiInstance(url, {...options, method})
         }
     })
