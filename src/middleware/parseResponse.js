@@ -54,6 +54,11 @@ export default function parseResponseMiddleware(ctx, next) {
             ctx.res = body;
             return;
         }
+        // 有的接口直接返回数据，并没有状态码
+        if(Array.isArray(body)){
+            ctx.res = body;
+            return;
+        }
         throw new ResponseError(copy, 'http error', body, req, 'HttpError');
     }).catch(e => {
         if (e instanceof RequestError || e instanceof ResponseError) {

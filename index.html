@@ -16,7 +16,8 @@
 
         const request = umiRequestSource.default;
         console.log(umiRequestSource, 'umiRequestSource')
-        let cancelOut;
+        const CancelToken = request.CancelToken;
+        let cancel;
         // 通过中间件可对请求前后做处理
         // request.use(async (ctx, next) => {
         //     console.log('a1');
@@ -30,58 +31,18 @@
         //     await next();
         //     console.log('b2');
         // });
-        request.get('http://jsonplaceholder.typicode.com/posts', {getResponse: true}).then(res => {
+        request.get('http://jsonplaceholder.typicode.com/posts', {
+            getResponse: true,
+            cancelToken: new CancelToken(function executor(c) {
+                cancel = c;
+            }),
+        }).then(res => {
             console.log(res, 'res');
         })
-        function sendRequest(){
-            // response拦截器, 处理response
-            umiRequestSource.interceptors.response.use((response, options) => {
-                const contentType = response.headers.get('Content-Type');
-                return response;
-            });
-            const CancelTOken = umiRequestSource.CancelToken;
-            const {token, cancel} = CancelTOken.source();
-            umiRequestSource('http://jsonplaceholder.typicode.com/posts',{
-                // prefix: "prefix", // 请求前缀
-                // suffix: 'suffix', // 请求后缀
-                errorHandler: (error)=>{
-                    console.log(error)
-                },
-                method: 'get',
-                params: new URLSearchParams('name=hkp&age=18'),
-                paramsSerializer:function(params){
-                    return `?name=${params.name}&age=${params.age}&sex=1`;
-                },
-                //requestType: 'json', // post 请求时数据类型（json,form） 默认为json
-                // data: {
-                //     name: 'test'
-                // }, // 提交的数据
-                // headers: {
-                //     'Content-Type': 'application/json'
-                // }
-                // 根据协议规范， GET 请求用于获取、查询服务端数据，在数据更新频率不频繁的情况下做必要的缓存能减少服务端的压力，
-                // 因为缓存策略是默认对 GET 请求做缓存，但对于一些特殊场景需要缓存其他类型请求的响应数据时，
-                // 我们提供 validateCache 供用户自定义何时需要进行缓存， key 依旧为 url + params + method
-                validateCache: (url, options) => { return options.method.toLowerCase() === 'get' },
-                // ’useCache‘ 是否使用缓存，当值为 true 时，GET 请求在 ttl 毫秒内将被缓存，缓存策略唯一 key 为 url + params + method 组合
-                useCache: true, // default
-
-                // ’ttl‘ 缓存时长（毫秒）， 0 为不过期
-                ttl: 60000,
-
-                // 'maxCache' 最大缓存数， 0 为无限制
-                maxCache: 0,
-
-                cancelToken: token,
-            }).then(response => {
-
-            })
-        }
-        // sendRequest();
-        const btn = document.getElementById('btn');
-        btn.onclick = sendRequest;
         const cancelBtn = document.getElementById('cancelBtn');
-
+        cancelBtn.addEventListener('click', () => {
+            cancel();
+        })
     </script>
 </body>
 </html>

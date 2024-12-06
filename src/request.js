@@ -33,7 +33,6 @@ const request = (initOptions = {}) => {
         }
     })
 
-    // TODO：取消请求没有测试
     umiInstance.Cancel = Cancel;
     umiInstance.CancelToken = CancelToken;
     umiInstance.isCancel = isCancel;

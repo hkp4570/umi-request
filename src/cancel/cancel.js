@@ -1,7 +1,7 @@
 'use strict'
 
-function Cancel(){
-
+function Cancel(message){
+    this.message = message;
 }
 Cancel.prototype.toString = function toString(){
     return this.message ? `Cancel: ${this.message}` : 'Cancel';

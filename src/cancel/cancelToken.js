@@ -15,6 +15,7 @@ function CancelToken(executor){
 
     const token = this;
     executor(function cancel(message){
+        debugger
         if(token.reason){
             return;
         }

@@ -92,11 +92,6 @@ export function getEnv() {
     return env;
 }
 
-// 如果请求选项包含 cancelToken，则在 token 已取消时拒绝请求
-export function cancel2Throw(opt) {
-
-}
-
 export function isArray(val) {
     return typeof val === 'object' && Object.prototype.toString.call(val) === '[object Array]';
 }
@@ -170,4 +165,14 @@ export function safeJsonParse(data, throwErrIfParseFail = false, response = null
         }
     }
     return data;
+}
+// 如果请求选项包含 cancelToken，则在 token 已取消时拒绝请求
+export function cancel2Throw(opt){
+    return new Promise((_, reject) => {
+        if(opt.cancelToken){
+            opt.cancelToken.promise.then(cancel => {
+                reject(cancel);
+            })
+        }
+    })
 }

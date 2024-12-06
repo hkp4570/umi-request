@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import { getEnv } from '../utils.js';
+import {cancel2Throw, getEnv} from '../utils.js';
 
 // 默认缓存判断，开放缓存判断给非 get 请求使用
 function __defaultValidateCache(url,options){
@@ -39,12 +39,11 @@ export default function fetchMiddleware(ctx, next) {
          return next();
      }
     }
-
     let response;
     if(timeout > 0){
 
     }else{
-        response = Promise.race([adapter(url, options)]);
+        response = Promise.race([cancel2Throw(options), adapter(url, options)]);
     }
 
     // 响应拦截器
